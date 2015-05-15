@@ -16,10 +16,13 @@
     "type": "git",
     "url": "https://github.com/chemerisuk/better-emmet-plugin.git"
   },
-  "author": "Maksim Chemerisuk <chemerisuk@gmail.com> (https://github.com/chemerisuk)",
+  "author": "Maksim Chemerisuk",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/chemerisuk/better-emmet-plugin/issues"
   },
-  "homepage": "https://github.com/chemerisuk/better-emmet-plugin"
+  "homepage": "https://github.com/chemerisuk/better-emmet-plugin",
+  "devDependencies": {
+    "better-dom-boilerplate": "git://github.com/chemerisuk/better-dom-boilerplate.git"
+  }
 }
