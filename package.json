@@ -1,0 +1,25 @@
+{
+  "name": "better-emmet-plugin",
+  "version": "0.9.0",
+  "description": "Emmet abbreviation parser for better-dom",
+  "main": "index.js",
+  "config": {
+    "gulp": "--gulpfile node_modules/better-dom-boilerplate/gulpfile.js --cwd ."
+  },
+  "scripts": {
+    "test": "gulp test $npm_package_config_gulp",
+    "start": "gulp dev $npm_package_config_gulp",
+    "release": "gulp release $npm_package_config_gulp",
+    "postrelease": "gulp gh-pages $npm_package_config_gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chemerisuk/better-emmet-plugin.git"
+  },
+  "author": "Maksim Chemerisuk <chemerisuk@gmail.com> (https://github.com/chemerisuk)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chemerisuk/better-emmet-plugin/issues"
+  },
+  "homepage": "https://github.com/chemerisuk/better-emmet-plugin"
+}
