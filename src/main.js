@@ -1,7 +1,7 @@
 (function(DOM) {
     "use strict";
 
-    /* es6-transpiler has-iterators:false, has-generators: false */
+    /* jshint -W083, maxdepth:6 */
 
     var // operator type / priority object
         operators = {"(": 1,")": 2,"^": 3,">": 4,"+": 5,"*": 6,"`": 7,"[": 8,".": 8,"#": 8},
@@ -61,7 +61,6 @@
      * @memberof DOM
      * @alias DOM.emmet
      * @param  {String}       template  input EmmetString
-     * @param  {Object|Array} [varMap]  key/value map of variables
      * @return {String} a resulting HTML string
      * @see https://github.com/chemerisuk/better-dom/wiki/Microtemplating
      * @see http://docs.emmet.io/cheat-sheet/
@@ -72,10 +71,8 @@
      * DOM.emmet("i.{0}+span", ["icon"]);                 // => '<i class="icon"></i><span></span>'
      * DOM.emmet("i.{a}>span#{b}", {a: "foo", b: "bar"}); // => '<i class="foo"><span id="bar"></span></i>'
      */
-    DOM.emmet = function(template, varMap) {
+    DOM.emmet = function(template) {
         if (typeof template !== "string") throw new TypeError("template");
-
-        if (varMap) template = DOM.format(template, varMap);
 
         if (template in tagCache) return tagCache[template];
 
@@ -83,7 +80,8 @@
 
         var stack = [], output = [];
 
-        for (let str of template.match(reParse)) {
+        for (let i = 0, match = template.match(reParse); i < match.length; ++i) {
+            let str = match[i];
             let op = str[0];
             let priority = operators[op];
 
@@ -126,7 +124,9 @@
 
         stack = [];
 
-        for (let str of output) {
+        for (let j = 0; j < output.length; ++j) {
+            let str = output[j];
+
             if (str in operators) {
                 let value = stack.shift();
                 let node = stack.shift();
