@@ -1,14 +1,14 @@
 /**
  * better-emmet-plugin: Emmet abbreviation parser for better-dom
- * @version 0.9.0 Tue, 26 Jan 2016 20:11:45 GMT
- * @link https://github.com/chemerisuk/better-emmet-plugin
+ * @version 0.9.2 Tue, 26 Jan 2016 21:56:05 GMT
+ * @link https://github.com/chemerisuk/better-emmet-plugin#readme
  * @copyright 2016 Maksim Chemerisuk
  * @license MIT
  */
 (function (DOM) {
     "use strict";
 
-    /* es6-transpiler has-iterators:false, has-generators: false */
+    /* jshint -W083, maxdepth:6 */
 
     var // operator type / priority object
     operators = { "(": 1, ")": 2, "^": 3, ">": 4, "+": 5, "*": 6, "`": 7, "[": 8, ".": 8, "#": 8 },
@@ -72,7 +72,6 @@
      * @memberof DOM
      * @alias DOM.emmet
      * @param  {String}       template  input EmmetString
-     * @param  {Object|Array} [varMap]  key/value map of variables
      * @return {String} a resulting HTML string
      * @see https://github.com/chemerisuk/better-dom/wiki/Microtemplating
      * @see http://docs.emmet.io/cheat-sheet/
@@ -83,10 +82,8 @@
      * DOM.emmet("i.{0}+span", ["icon"]);                 // => '<i class="icon"></i><span></span>'
      * DOM.emmet("i.{a}>span#{b}", {a: "foo", b: "bar"}); // => '<i class="foo"><span id="bar"></span></i>'
      */
-    DOM.emmet = function (template, varMap) {
+    DOM.emmet = function (template) {
         if (typeof template !== "string") throw new TypeError("template");
-
-        if (varMap) template = DOM.format(template, varMap);
 
         if (template in tagCache) return tagCache[template];
 
@@ -95,61 +92,41 @@
         var stack = [],
             output = [];
 
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
+        for (var i = 0, match = template.match(reParse); i < match.length; ++i) {
+            var str = match[i];
+            var op = str[0];
+            var priority = operators[op];
 
-        try {
-            for (var _iterator = template.match(reParse)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var str = _step.value;
+            if (priority) {
+                if (str !== "(") {
+                    // for ^ operator need to skip > str.length times
+                    for (var _i = 0, n = op === "^" ? str.length : 1; _i < n; ++_i) {
+                        while (stack[0] !== op && operators[stack[0]] >= priority) {
+                            var head = stack.shift();
 
-                var op = str[0];
-                var priority = operators[op];
-
-                if (priority) {
-                    if (str !== "(") {
-                        // for ^ operator need to skip > str.length times
-                        for (var i = 0, n = op === "^" ? str.length : 1; i < n; ++i) {
-                            while (stack[0] !== op && operators[stack[0]] >= priority) {
-                                var head = stack.shift();
-
-                                output.push(head);
-                                // for ^ operator stop shifting when the first > is found
-                                if (op === "^" && head === ">") break;
-                            }
+                            output.push(head);
+                            // for ^ operator stop shifting when the first > is found
+                            if (op === "^" && head === ">") break;
                         }
                     }
+                }
 
-                    if (str === ")") {
-                        stack.shift(); // remove "(" symbol from stack
-                    } else {
-                            // handle values inside of `...` and [...] sections
-                            if (op === "[" || op === "`") {
-                                output.push(str.slice(1, -1));
-                            }
-                            // handle multiple classes, e.g. a.one.two
-                            if (op === ".") {
-                                output.push(str.slice(1).replace(reDot, " "));
-                            }
-
-                            stack.unshift(op);
-                        }
+                if (str === ")") {
+                    stack.shift(); // remove "(" symbol from stack
                 } else {
-                    output.push(str);
-                }
-            }
-        } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-        } finally {
-            try {
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                    _iterator.return();
-                }
-            } finally {
-                if (_didIteratorError) {
-                    throw _iteratorError;
-                }
+                        // handle values inside of `...` and [...] sections
+                        if (op === "[" || op === "`") {
+                            output.push(str.slice(1, -1));
+                        }
+                        // handle multiple classes, e.g. a.one.two
+                        if (op === ".") {
+                            output.push(str.slice(1).replace(reDot, " "));
+                        }
+
+                        stack.unshift(op);
+                    }
+            } else {
+                output.push(str);
             }
         }
 
@@ -159,76 +136,57 @@
 
         stack = [];
 
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
+        for (var j = 0; j < output.length; ++j) {
+            var str = output[j];
 
-        try {
-            for (var _iterator2 = output[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var str = _step2.value;
+            if (str in operators) {
+                var value = stack.shift();
+                var node = stack.shift();
 
-                if (str in operators) {
-                    var value = stack.shift();
-                    var node = stack.shift();
-
-                    if (typeof node === "string") {
-                        node = [makeTerm(node)];
-                    }
-
-                    switch (str) {
-                        case ".":
-                            value = injectTerm(" class=\"" + value + "\"");
-                            break;
-
-                        case "#":
-                            value = injectTerm(" id=\"" + value + "\"");
-                            break;
-
-                        case "[":
-                            value = injectTerm(value.replace(reAttr, normalizeAttrs));
-                            break;
-
-                        case "*":
-                            node = makeIndexedTerm(+value, node.join(""));
-                            break;
-
-                        case "`":
-                            stack.unshift(node);
-                            // escape unsafe HTML symbols
-                            node = [value.replace(reUnsafe, function (ch) {
-                                return safeSymbol[ch];
-                            })];
-                            break;
-
-                        default:
-                            /* ">", "+", "^" */
-                            value = typeof value === "string" ? makeTerm(value) : value.join("");
-
-                            if (str === ">") {
-                                value = injectTerm(value, true);
-                            } else {
-                                node.push(value);
-                            }
-                    }
-
-                    str = typeof value === "function" ? node.map(value) : node;
+                if (typeof node === "string") {
+                    node = [makeTerm(node)];
                 }
 
-                stack.unshift(str);
+                switch (str) {
+                    case ".":
+                        value = injectTerm(" class=\"" + value + "\"");
+                        break;
+
+                    case "#":
+                        value = injectTerm(" id=\"" + value + "\"");
+                        break;
+
+                    case "[":
+                        value = injectTerm(value.replace(reAttr, normalizeAttrs));
+                        break;
+
+                    case "*":
+                        node = makeIndexedTerm(+value, node.join(""));
+                        break;
+
+                    case "`":
+                        stack.unshift(node);
+                        // escape unsafe HTML symbols
+                        node = [value.replace(reUnsafe, function (ch) {
+                            return safeSymbol[ch];
+                        })];
+                        break;
+
+                    default:
+                        /* ">", "+", "^" */
+                        value = typeof value === "string" ? makeTerm(value) : value.join("");
+
+                        if (str === ">") {
+                            value = injectTerm(value, true);
+                        } else {
+                            node.push(value);
+                        }
+                }
+
+                str = typeof value === "function" ? node.map(value) : node;
             }
-        } catch (err) {
-            _didIteratorError2 = true;
-            _iteratorError2 = err;
-        } finally {
-            try {
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                    _iterator2.return();
-                }
-            } finally {
-                if (_didIteratorError2) {
-                    throw _iteratorError2;
-                }
-            }
+
+            stack.unshift(str);
         }
 
         if (output.length === 1) {
