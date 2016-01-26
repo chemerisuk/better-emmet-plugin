@@ -16,8 +16,7 @@
   "scripts": {
     "test": "gulp test $npm_package_config_gulp",
     "start": "gulp dev $npm_package_config_gulp",
-    "preversion": "gulp release $npm_package_config_gulp",
-    "postversion": "gulp gh-pages $npm_package_config_gulp"
+    "preversion": "gulp npm-dist $npm_package_config_gulp"
   },
   "repository": {
     "type": "git",
