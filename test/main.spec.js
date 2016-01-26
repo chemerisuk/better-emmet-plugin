@@ -78,19 +78,19 @@ describe("DOM.emmet", function() {
         checkExpr("ul>(li>b)*3", "<ul><li><b></b></li><li><b></b></li><li><b></b></li></ul>");
         checkExpr("ul>li*3>b", "<ul><li><b></b></li><li><b></b></li><li><b></b></li></ul>");
 
-        // checkExpr("a>`{c}`", "<a>{c}</a>", {b: "test"});
-        // checkExpr("a>`{c}`", "<a>test</a>", {c: "test"});
-        // checkExpr("a.{c}>`{c}`", "<a class=\"test\">test</a>", {c: "test"});
-        // checkExpr("a#{b}>`{c}`", "<a id=\"bbb\">test</a>", {c: "test", b: "bbb"});
-        // checkExpr("div[class=foo-{lang}]*2", "<div class=\"foo-en\"></div><div class=\"foo-en\"></div>", {lang: "en"});
-        // checkExpr("div[class=foo-$lang]*2", "<div class=\"foo-1lang\"></div><div class=\"foo-2lang\"></div>", {lang: "en"});
-        // checkExpr("i>`{0}`", "<i></i>", [""]);
-        // checkExpr("i>`{0}:`", "<i>:</i>", [""]);
-        // checkExpr("i>span+`{0}`", "<i><span></span></i>", [""]);
-        // checkExpr("i>`{0}`+span", "<i><span></span></i>", [""]);
+        checkExpr("a>`{c}`", "<a>{c}</a>");
+        checkExpr("a>`test`", "<a>test</a>");
+        checkExpr("a.test>`test`", "<a class=\"test\">test</a>");
+        checkExpr("a#bbb>`test`", "<a id=\"bbb\">test</a>");
+        checkExpr("div[class=foo-en]*2", "<div class=\"foo-en\"></div><div class=\"foo-en\"></div>");
+        checkExpr("div[class=foo-$lang]*2", "<div class=\"foo-1lang\"></div><div class=\"foo-2lang\"></div>");
+        checkExpr("i>``", "<i></i>");
+        checkExpr("i>`:`", "<i>:</i>");
+        checkExpr("i>span+``", "<i><span></span></i>");
+        checkExpr("i>``+span", "<i><span></span></i>");
 
-        // checkExpr("a[b={0}]>`{1}`", "<a b=\"\">test</a>", ["", "test"]);
-        // checkExpr("a[b=`{0}`]>`{1}`", "<a b=\"\">test</a>", ["", "test"]);
+        checkExpr("a[b=]>`test`", "<a b=\"\">test</a>");
+        checkExpr("a[b=``]>`test`", "<a b=\"\">test</a>");
     });
 
     describe("groups", function() {
