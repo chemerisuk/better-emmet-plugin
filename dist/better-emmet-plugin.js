@@ -1,6 +1,6 @@
 /**
  * better-emmet-plugin: Emmet abbreviation parser for better-dom
- * @version 0.9.3 Tue, 26 Jan 2016 22:12:37 GMT
+ * @version 0.10.0 Wed, 27 Jan 2016 08:23:43 GMT
  * @link https://github.com/chemerisuk/better-emmet-plugin#readme
  * @copyright 2016 Maksim Chemerisuk
  * @license MIT
