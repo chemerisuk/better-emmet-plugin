@@ -66,9 +66,6 @@
      * @example
      * DOM.emmet("a");                                    // => '<a></a>'
      * DOM.emmet("ul>li*2");                              // => '<ul><li></li><li></li></ul>'
-     * DOM.emmet("b>`hello {user}`", {user: "world"});    // => '<b>hello world</b>'
-     * DOM.emmet("i.{0}+span", ["icon"]);                 // => '<i class="icon"></i><span></span>'
-     * DOM.emmet("i.{a}>span#{b}", {a: "foo", b: "bar"}); // => '<i class="foo"><span id="bar"></span></i>'
      */
     DOM.emmet = function(template) {
         if (typeof template !== "string") throw new TypeError("template");
