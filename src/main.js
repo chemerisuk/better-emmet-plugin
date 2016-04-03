@@ -6,24 +6,23 @@
     var // operator type / priority object
         operators = {"(": 1,")": 2,">": 3,"+": 4,"*": 5,"{": 6,"[": 7,".": 7,"#": 7},
         reParse = /\{[^\}]*\}|\[[^\]]*\]|\.[^()>^+*\{[#]+|[^()>^+*\{[#.]+|\^+|./g,
-        reAttr = /\s*([\w\-]+)(?:=((?:`([^`]*)`)|[^\s]*))?/g,
+        reAttr = /\s*([\w\-]+)(?:=((?:("|')(\\?.)*?\3)|[^\s]*))?/g,
         reIndex = /(\$+)(?:@(-)?(\d+)?)?/g,
         reDot = /\./g,
         reDollar = /\$/g,
         tagCache = {"": ""},
-        normalizeAttrs = (_, name, value, rawValue) => {
-            // try to detemnie which kind of quotes to use
-            var quote = value && value.indexOf("\"") >= 0 ? "'" : "\"";
-
-            if (typeof rawValue === "string") {
-                // grab unquoted value for smart quotes
-                value = rawValue;
-            } else if (typeof value !== "string") {
-                // handle boolean attributes by using name as value
+        normalizeAttrs = (_, name, value, quote) => {
+            if (value === void 0) {
+                // handle boolean attributes
                 value = name;
             }
-            // always wrap attribute values with quotes even they don't exist
-            return " " + name + "=" + quote + value + quote;
+
+            if (quote === void 0) {
+                // wrap value with quotes if they do not exist
+                value = `"${value}"`;
+            }
+
+            return " " + name + "=" + value;
         },
         injectTerm = (term, end) => (html) => {
             // find index of where to inject the term

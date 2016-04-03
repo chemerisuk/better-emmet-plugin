@@ -52,14 +52,14 @@ describe("DOM.emmet", function() {
         checkExpr("a.test[title href]", "<a class=\"test\" title=\"title\" href=\"href\"></a>");
         checkExpr("a#one.two[title href]", "<a id=\"one\" class=\"two\" title=\"title\" href=\"href\"></a>");
         checkExpr("a[title=hello]", "<a title=\"hello\"></a>");
-        checkExpr("a[title=`hello world`]", "<a title=\"hello world\"></a>");
-        checkExpr("a[title=`{\"hello\":\"world\"}`]", "<a title='{\"hello\":\"world\"}'></a>");
-        checkExpr("a[title=`hello world` href=other]", "<a title=\"hello world\" href=\"other\"></a>");
-        checkExpr("a[title=`hello world` href=other name]", "<a title=\"hello world\" href=\"other\" name=\"name\"></a>");
-        checkExpr("a[title=`hello world` href=other name]>em", "<a title=\"hello world\" href=\"other\" name=\"name\"><em></em></a>");
+        checkExpr("a[title=\"hello world\"]", "<a title=\"hello world\"></a>");
+        checkExpr("a[title='{\"hello\":\"world\"}']", "<a title='{\"hello\":\"world\"}'></a>");
+        checkExpr("a[title=\"hello world\" href=other]", "<a title=\"hello world\" href=\"other\"></a>");
+        checkExpr("a[title=\"hello world\" href=other name]", "<a title=\"hello world\" href=\"other\" name=\"name\"></a>");
+        checkExpr("a[title=\"hello world\" href=other name]>em", "<a title=\"hello world\" href=\"other\" name=\"name\"><em></em></a>");
         checkExpr("section[id=javascript.files]", "<section id=\"javascript.files\"></section>");
-        checkExpr("a[b c=`d'f`]", "<a b=\"b\" c=\"d'f\"></a>");
-        checkExpr("a[b c=`d\"f`]", "<a b=\"b\" c='d\"f'></a>");
+        checkExpr("a[b c=\"d'f\"]", "<a b=\"b\" c=\"d'f\"></a>");
+        checkExpr("a[b c='d\"f']", "<a b=\"b\" c='d\"f'></a>");
         checkExpr("input[type=text disabled]", "<input type=\"text\" disabled=\"disabled\">");
         checkExpr("a[href=b   c]", "<a href=\"b\" c=\"c\"></a>");
         checkExpr("table[a=b].days>tr>td[c=d]*2", "<table a=\"b\" class=\"days\"><tr><td c=\"d\"></td><td c=\"d\"></td></tr></table>");
@@ -90,7 +90,7 @@ describe("DOM.emmet", function() {
         checkExpr("i>{}+span", "<i><span></span></i>");
 
         checkExpr("a[b=]>{test}", "<a b=\"\">test</a>");
-        checkExpr("a[b=``]>{test}", "<a b=\"\">test</a>");
+        checkExpr("a[b='']>{test}", "<a b=''>test</a>");
     });
 
     describe("groups", function() {
