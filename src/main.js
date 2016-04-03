@@ -52,7 +52,7 @@
 
     // populate empty tag names with result
     "area base br col hr img input link meta param command keygen source".split(" ").forEach((tag) => {
-        tagCache[tag] = "<" + tag + ">";
+        tagCache[tag] = `<${tag}>`;
     });
 
     /**
@@ -94,7 +94,7 @@
                 if (str === ")") {
                     stack.shift(); // remove "(" symbol from stack
                 } else {
-                    // handle values inside of `...` and [...] sections
+                    // handle values inside of {...} and [...] sections
                     if (op === "[" || op === "{") {
                         output.push(str.slice(1, -1));
                     }
@@ -129,11 +129,11 @@
 
                 switch(str) {
                 case ".":
-                    value = injectTerm(" class=\"" + value + "\"");
+                    value = injectTerm(` class="${value}"`);
                     break;
 
                 case "#":
-                    value = injectTerm(" id=\"" + value + "\"");
+                    value = injectTerm(` id="${value}"`);
                     break;
 
                 case "[":
