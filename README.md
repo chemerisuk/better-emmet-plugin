@@ -1,4 +1,4 @@
-# better-emmet-plugin<br>[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][bower-image]][bower-url]
+# better-emmet-plugin<br>[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][bower-image]][bower-url]
 > Emmet abbreviation parser for [better-dom](https://github.com/chemerisuk/better-dom)
 
 ## Differences from emmet.io parser
@@ -23,6 +23,9 @@
 * iOS Safari 6+
 * Android 2.3+
 * Chrome for Android
+
+[npm-url]: https://www.npmjs.com/package/better-emmet-plugin
+[npm-image]: https://img.shields.io/npm/dt/better-emmet-plugin.svg
 
 [travis-url]: http://travis-ci.org/chemerisuk/better-emmet-plugin
 [travis-image]: http://img.shields.io/travis/chemerisuk/better-emmet-plugin/master.svg
