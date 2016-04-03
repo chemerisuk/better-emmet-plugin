@@ -1,6 +1,6 @@
 /**
  * better-emmet-plugin: Emmet abbreviation parser for better-dom
- * @version 0.10.2 Wed, 27 Jan 2016 09:46:24 GMT
+ * @version 1.0.0-beta.1 Sun, 03 Apr 2016 13:38:44 GMT
  * @link https://github.com/chemerisuk/better-emmet-plugin#readme
  * @copyright 2016 Maksim Chemerisuk
  * @license MIT
@@ -11,26 +11,25 @@
     /* jshint -W083, maxdepth:6 */
 
     var // operator type / priority object
-    operators = { "(": 1, ")": 2, "^": 3, ">": 4, "+": 5, "*": 6, "`": 7, "[": 8, ".": 8, "#": 8 },
-        reParse = /`[^`]*`|\[[^\]]*\]|\.[^()>^+*`[#]+|[^()>^+*`[#.]+|\^+|./g,
-        reAttr = /\s*([\w\-]+)(?:=((?:`([^`]*)`)|[^\s]*))?/g,
+    operators = { "(": 1, ")": 2, ">": 3, "+": 4, "*": 5, "{": 6, "[": 7, ".": 7, "#": 7 },
+        reParse = /\{[^\}]*\}|\[[^\]]*\]|\.[^()>^+*\{[#]+|[^()>^+*\{[#.]+|\^+|./g,
+        reAttr = /\s*([\w\-]+)(?:=((?:("|')(\\?.)*?\3)|[^\s]*))?/g,
         reIndex = /(\$+)(?:@(-)?(\d+)?)?/g,
         reDot = /\./g,
         reDollar = /\$/g,
         tagCache = { "": "" },
-        normalizeAttrs = function (_, name, value, rawValue) {
-        // try to detemnie which kind of quotes to use
-        var quote = value && value.indexOf("\"") >= 0 ? "'" : "\"";
-
-        if (typeof rawValue === "string") {
-            // grab unquoted value for smart quotes
-            value = rawValue;
-        } else if (typeof value !== "string") {
-            // handle boolean attributes by using name as value
+        normalizeAttrs = function (_, name, value, quote) {
+        if (value === void 0) {
+            // handle boolean attributes
             value = name;
         }
-        // always wrap attribute values with quotes even they don't exist
-        return " " + name + "=" + quote + value + quote;
+
+        if (quote === void 0) {
+            // wrap value with quotes if they do not exist
+            value = "\"" + value + "\"";
+        }
+
+        return " " + name + "=" + value;
     },
         injectTerm = function (term, end) {
         return function (html) {
@@ -78,9 +77,6 @@
      * @example
      * DOM.emmet("a");                                    // => '<a></a>'
      * DOM.emmet("ul>li*2");                              // => '<ul><li></li><li></li></ul>'
-     * DOM.emmet("b>`hello {user}`", {user: "world"});    // => '<b>hello world</b>'
-     * DOM.emmet("i.{0}+span", ["icon"]);                 // => '<i class="icon"></i><span></span>'
-     * DOM.emmet("i.{a}>span#{b}", {a: "foo", b: "bar"}); // => '<i class="foo"><span id="bar"></span></i>'
      */
     DOM.emmet = function (template) {
         if (typeof template !== "string") throw new TypeError("template");
@@ -99,23 +95,16 @@
 
             if (priority) {
                 if (str !== "(") {
-                    // for ^ operator need to skip > str.length times
-                    for (var _i = 0, n = op === "^" ? str.length : 1; _i < n; ++_i) {
-                        while (stack[0] !== op && operators[stack[0]] >= priority) {
-                            var head = stack.shift();
-
-                            output.push(head);
-                            // for ^ operator stop shifting when the first > is found
-                            if (op === "^" && head === ">") break;
-                        }
+                    while (stack[0] !== op && operators[stack[0]] >= priority) {
+                        output.push(stack.shift());
                     }
                 }
 
                 if (str === ")") {
                     stack.shift(); // remove "(" symbol from stack
                 } else {
-                        // handle values inside of `...` and [...] sections
-                        if (op === "[" || op === "`") {
+                        // handle values inside of {...} and [...] sections
+                        if (op === "[" || op === "{") {
                             output.push(str.slice(1, -1));
                         }
                         // handle multiple classes, e.g. a.one.two
@@ -137,9 +126,9 @@
         stack = [];
 
         for (var j = 0; j < output.length; ++j) {
-            var str = output[j];
+            var _str = output[j];
 
-            if (str in operators) {
+            if (_str in operators) {
                 var value = stack.shift();
                 var node = stack.shift();
 
@@ -147,7 +136,7 @@
                     node = [makeTerm(node)];
                 }
 
-                switch (str) {
+                switch (_str) {
                     case ".":
                         value = injectTerm(" class=\"" + value + "\"");
                         break;
@@ -164,7 +153,7 @@
                         node = makeIndexedTerm(+value, node.join(""));
                         break;
 
-                    case "`":
+                    case "{":
                         stack.unshift(node);
                         // escape unsafe HTML symbols
                         node = [value.replace(reUnsafe, function (ch) {
@@ -173,20 +162,20 @@
                         break;
 
                     default:
-                        /* ">", "+", "^" */
+                        /* ">", "+" */
                         value = typeof value === "string" ? makeTerm(value) : value.join("");
 
-                        if (str === ">") {
+                        if (_str === ">") {
                             value = injectTerm(value, true);
                         } else {
                             node.push(value);
                         }
                 }
 
-                str = typeof value === "function" ? node.map(value) : node;
+                _str = typeof value === "function" ? node.map(value) : node;
             }
 
-            stack.unshift(str);
+            stack.unshift(_str);
         }
 
         if (output.length === 1) {
