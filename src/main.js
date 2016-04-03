@@ -4,7 +4,7 @@
     /* jshint -W083, maxdepth:6 */
 
     var // operator type / priority object
-        operators = {"(": 1,")": 2,"^": 3,">": 4,"+": 5,"*": 6,"`": 7,"[": 8,".": 8,"#": 8},
+        operators = {"(": 1,")": 2,">": 4,"+": 5,"*": 6,"`": 7,"[": 8,".": 8,"#": 8},
         reParse = /`[^`]*`|\[[^\]]*\]|\.[^()>^+*`[#]+|[^()>^+*`[#.]+|\^+|./g,
         reAttr = /\s*([\w\-]+)(?:=((?:`([^`]*)`)|[^\s]*))?/g,
         reIndex = /(\$+)(?:@(-)?(\d+)?)?/g,
@@ -87,15 +87,8 @@
 
             if (priority) {
                 if (str !== "(") {
-                    // for ^ operator need to skip > str.length times
-                    for (let i = 0, n = (op === "^" ? str.length : 1); i < n; ++i) {
-                        while (stack[0] !== op && operators[stack[0]] >= priority) {
-                            let head = stack.shift();
-
-                            output.push(head);
-                            // for ^ operator stop shifting when the first > is found
-                            if (op === "^" && head === ">") break;
-                        }
+                    while (stack[0] !== op && operators[stack[0]] >= priority) {
+                        output.push(stack.shift());
                     }
                 }
 
@@ -158,7 +151,7 @@
                     node = [ value.replace(reUnsafe, (ch) => safeSymbol[ch]) ];
                     break;
 
-                default: /* ">", "+", "^" */
+                default: /* ">", "+" */
                     value = typeof value === "string" ? makeTerm(value) : value.join("");
 
                     if (str === ">") {

@@ -22,13 +22,13 @@ describe("DOM.emmet", function() {
         checkExpr("a>b+(i>span)", "<a><b></b><i><span></span></i></a>");
     });
 
-    describe("'^' operator", function() {
-        checkExpr("p>em^div", "<p><em></em></p><div></div>");
-        checkExpr("p>em>span^b", "<p><em><span></span></em><b></b></p>");
-        checkExpr("p>em>span+i^b", "<p><em><span></span><i></i></em><b></b></p>");
-        checkExpr("p>em>span^^div", "<p><em><span></span></em></p><div></div>");
-        checkExpr("p>em>span^^^^div", "<p><em><span></span></em></p><div></div>");
-    });
+    // describe("'^' operator", function() {
+    //     checkExpr("p>em^div", "<p><em></em></p><div></div>");
+    //     checkExpr("p>em>span^b", "<p><em><span></span></em><b></b></p>");
+    //     checkExpr("p>em>span+i^b", "<p><em><span></span><i></i></em><b></b></p>");
+    //     checkExpr("p>em>span^^div", "<p><em><span></span></em></p><div></div>");
+    //     checkExpr("p>em>span^^^^div", "<p><em><span></span></em></p><div></div>");
+    // });
 
     describe("classes", function() {
         checkExpr("p.name", "<p class=\"name\"></p>");
