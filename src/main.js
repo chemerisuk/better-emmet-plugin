@@ -4,8 +4,8 @@
     /* jshint -W083, maxdepth:6 */
 
     var // operator type / priority object
-        operators = {"(": 1,")": 2,">": 4,"+": 5,"*": 6,"`": 7,"[": 8,".": 8,"#": 8},
-        reParse = /`[^`]*`|\[[^\]]*\]|\.[^()>^+*`[#]+|[^()>^+*`[#.]+|\^+|./g,
+        operators = {"(": 1,")": 2,">": 3,"+": 4,"*": 5,"{": 6,"[": 7,".": 7,"#": 7},
+        reParse = /\{[^\}]*\}|\[[^\]]*\]|\.[^()>^+*\{[#]+|[^()>^+*\{[#.]+|\^+|./g,
         reAttr = /\s*([\w\-]+)(?:=((?:`([^`]*)`)|[^\s]*))?/g,
         reIndex = /(\$+)(?:@(-)?(\d+)?)?/g,
         reDot = /\./g,
@@ -32,7 +32,7 @@
             return html.slice(0, index) + term + html.slice(index);
         },
         makeTerm = (tag) => {
-            return tagCache[tag] || (tagCache[tag] = "<" + tag + "></" + tag + ">");
+            return tagCache[tag] || (tagCache[tag] = `<${tag}></${tag}>`);
         },
         makeIndexedTerm = (n, term) => {
             var result = Array(n), i;
@@ -96,7 +96,7 @@
                     stack.shift(); // remove "(" symbol from stack
                 } else {
                     // handle values inside of `...` and [...] sections
-                    if (op === "[" || op === "`") {
+                    if (op === "[" || op === "{") {
                         output.push(str.slice(1, -1));
                     }
                     // handle multiple classes, e.g. a.one.two
@@ -145,7 +145,7 @@
                     node = makeIndexedTerm(+value, node.join(""));
                     break;
 
-                case "`":
+                case "{":
                     stack.unshift(node);
                     // escape unsafe HTML symbols
                     node = [ value.replace(reUnsafe, (ch) => safeSymbol[ch]) ];
