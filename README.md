@@ -25,7 +25,7 @@
 * Chrome for Android
 
 [npm-url]: https://www.npmjs.com/package/better-emmet-plugin
-[npm-version]: https://img.shields.io/npm/dt/better-emmet-plugin.svg
+[npm-version]: https://img.shields.io/npm/v/better-emmet-plugin.svg
 [npm-downloads]: https://img.shields.io/npm/dt/better-emmet-plugin.svg
 
 [travis-url]: http://travis-ci.org/chemerisuk/better-emmet-plugin
