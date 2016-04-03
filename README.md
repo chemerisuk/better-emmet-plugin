@@ -1,6 +1,16 @@
 # better-emmet-plugin<br>[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][bower-image]][bower-url]
 > Emmet abbreviation parser for [better-dom](https://github.com/chemerisuk/better-dom)
 
+## Differences from emmet.io parser
+1. Element aliases are not supported
+2. Implied tag names are not supported
+3. `a{text}` instead of `a>{text}` is not supported
+4. Operator `^` is not supported
+5. Expandos are not supported
+6. Boolean attributes (attributes are boolean by default)
+7. Default attributes are not supported
+8. Short tags are not supported
+
 ## Browser support
 #### Desktop
 * Chrome

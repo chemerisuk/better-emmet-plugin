@@ -1,6 +1,8 @@
 describe("DOM.emmet", function() {
     "use strict";
 
+    /* jshint quotmark:false */
+
     function checkExpr(source, target, vars) {
         it(source, function() {
             expect(DOM.emmet(source, vars)).toBe(target);
