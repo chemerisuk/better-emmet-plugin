@@ -1,7 +1,7 @@
 /**
  * better-emmet-plugin: Emmet abbreviation parser for better-dom
- * @version 1.0.0-beta.1 Sun, 03 Apr 2016 13:38:44 GMT
- * @link https://github.com/chemerisuk/better-emmet-plugin#readme
+ * @version 1.0.0-beta.2 Tue, 05 Apr 2016 13:33:52 GMT
+ * @link https://github.com/chemerisuk/better-emmet-plugin
  * @copyright 2016 Maksim Chemerisuk
  * @license MIT
  */
@@ -186,5 +186,15 @@
         }
 
         return output;
+    };
+
+    DOM.emmet.esliteral = function (parts) {
+        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+            args[_key - 1] = arguments[_key];
+        }
+
+        return DOM.emmet(args.reduce(function (expr, arg, index) {
+            return expr + arg + parts[index + 1];
+        }, parts[0]));
     };
 })(window.DOM);
