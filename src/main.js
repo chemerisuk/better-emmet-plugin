@@ -172,4 +172,10 @@
 
         return output;
     };
+
+    DOM.emmet.esliteral = (parts, ...args) => {
+        return DOM.emmet(args.reduce((expr, arg, index) => {
+            return expr + arg + parts[index + 1];
+        }, parts[0]));
+    };
 }(window.DOM));

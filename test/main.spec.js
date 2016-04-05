@@ -90,6 +90,14 @@ describe("DOM.emmet", function() {
         checkExpr("p>i.z+{0}+br+{1}", "<p><i class=\"z\"></i>0<br>1</p>"); // new
     });
 
+    it("supports ES6 literals", function() {
+        var bar = "foo";
+        var emmet = DOM.emmet.esliteral;
+
+        expect(emmet`a+b`).toBe("<a></a><b></b>");
+        expect(emmet`div>{${bar}}`).toBe("<div>foo</div>");
+    });
+
     it("should throw error on invalid args", function() {
         expect(function() { DOM.emmet({}); }).toThrow();
         expect(function() { DOM.emmet(it); }).toThrow();
