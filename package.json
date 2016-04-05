@@ -9,7 +9,9 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "better-dom": "^3.0.0-beta.3"
+  },
   "devDependencies": {
     "better-dom-boilerplate": "git://github.com/chemerisuk/better-dom-boilerplate.git"
   },
@@ -25,12 +27,12 @@
   },
   "keywords": [
     "ecosystem:better-dom",
-    "better-dom-plugin"
+    "better-emmet-plugin"
   ],
   "author": "Maksim Chemerisuk",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/chemerisuk/better-emmet-plugin/issues"
   },
-  "homepage": "https://github.com/chemerisuk/better-emmet-plugin#readme"
+  "homepage": "https://github.com/chemerisuk/better-emmet-plugin"
 }
