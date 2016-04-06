@@ -27,7 +27,9 @@
   },
   "keywords": [
     "ecosystem:better-dom",
-    "better-emmet-plugin"
+    "better-emmet-plugin",
+    "emmet",
+    "html"
   ],
   "author": "Maksim Chemerisuk",
   "license": "MIT",

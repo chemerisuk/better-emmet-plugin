@@ -12,7 +12,7 @@ to the equivalent micro template
 ```js
 DOM.create(DOM.emmet("ul>li.list-item*3"));
 ```
-Take a look at the [Emmet cheat sheet](http://docs.emmet.io/cheat-sheet/) for more examples, but be aware about the [differences](https://github.com/chemerisuk/better-dom/wiki/Abbreviation-parser-differences-from-the-emmet.io-project).
+Take a look at the [Emmet cheat sheet](http://docs.emmet.io/cheat-sheet/) for more examples, but be aware about the [differences](#differences-from-emmetio-parser).
 
 ## Differences from emmet.io parser
 1. Element aliases are not supported
