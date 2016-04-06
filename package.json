@@ -9,13 +9,11 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "better-dom": "^3.0.0-beta.3"
-  },
   "peerDependencies": {
     "better-dom": "^3.0.0-beta.3"
   },
   "devDependencies": {
+    "better-dom": "^3.0.0-beta.3",
     "better-dom-boilerplate": "git://github.com/chemerisuk/better-dom-boilerplate.git"
   },
   "scripts": {
