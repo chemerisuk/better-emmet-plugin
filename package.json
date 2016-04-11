@@ -13,7 +13,6 @@
     "better-dom": "^3.0.0-beta.3"
   },
   "devDependencies": {
-    "better-dom": "^3.0.0-beta.3",
     "better-dom-boilerplate": "git://github.com/chemerisuk/better-dom-boilerplate.git"
   },
   "scripts": {
@@ -39,6 +38,6 @@
   },
   "homepage": "https://github.com/chemerisuk/better-emmet-plugin",
   "karmaFiles": [
-    "node_modules/better-dom/dist/better-dom.js"
+    "bower_components/better-dom/dist/better-dom.js"
   ]
 }

@@ -28,6 +28,8 @@ Take a look at the [Emmet cheat sheet](http://docs.emmet.io/cheat-sheet/) for mo
 Several recommendations from the [emmet docs](http://docs.emmet.io/):
 
 > Abbreviations are not a template language, they don’t have to be “readable”, they have to be “quickly expandable and removable”.
+> 
+> You don’t really need to write complex abbreviations. Stop thinking that “typing” is the slowest process in web-development. You’ll quickly find out that constructing a single complex abbreviation is much slower and error-prone than constructing and typing a few short ones.
 
 ## Browser support
 #### Desktop

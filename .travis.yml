@@ -3,3 +3,5 @@ node_js:
   - 4.2
 before_install:
   - npm install -g gulp
+  - npm install -g bower
+  - bower install
