@@ -1,6 +1,6 @@
 {
   "name": "better-emmet-plugin",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "description": "Emmet abbreviation parser for better-dom",
   "main": "dist/better-emmet-plugin.js",
   "config": {

@@ -1,6 +1,6 @@
 /**
  * better-emmet-plugin: Emmet abbreviation parser for better-dom
- * @version 1.0.0-beta.3 Wed, 06 Apr 2016 17:15:09 GMT
+ * @version 1.0.0-rc.1 Mon, 11 Apr 2016 12:56:03 GMT
  * @link https://github.com/chemerisuk/better-emmet-plugin
  * @copyright 2016 Maksim Chemerisuk
  * @license MIT
@@ -188,13 +188,11 @@
         return output;
     };
 
-    DOM.emmet.esliteral = function (parts) {
-        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-            args[_key - 1] = arguments[_key];
-        }
+    DOM.emmetLiteral = function (parts) {
+        var args = arguments;
 
-        return DOM.emmet(args.reduce(function (expr, arg, index) {
-            return expr + arg + parts[index + 1];
-        }, parts[0]));
+        return DOM.emmet(parts.reduce(function (expr, part, index) {
+            return expr + args[index] + part;
+        }));
     };
 })(window.DOM);
