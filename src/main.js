@@ -173,9 +173,11 @@
         return output;
     };
 
-    DOM.emmet.esliteral = (parts, ...args) => {
-        return DOM.emmet(args.reduce((expr, arg, index) => {
-            return expr + arg + parts[index + 1];
-        }, parts[0]));
+    DOM.emmetLiteral = function(parts) {
+        var args = arguments;
+
+        return DOM.emmet(parts.reduce((expr, part, index) => {
+            return expr + args[index] + part;
+        }));
     };
 }(window.DOM));

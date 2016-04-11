@@ -81,6 +81,7 @@ describe("DOM.emmet", function() {
     });
 
     describe('Text nodes', function() {
+        // checkExpr('div>{foo}+a>{bar}', '<div>foo<a>bar</a></div>');
         checkExpr('span>{Hello world}', '<span>Hello world</span>');
         // checkExpr('span{Hello world}', '<span>Hello world</span>');
         checkExpr('span>{Hello}+{ world}', '<span>Hello world</span>');
@@ -92,10 +93,11 @@ describe("DOM.emmet", function() {
 
     it("supports ES6 literals", function() {
         var bar = "foo";
-        var emmet = DOM.emmet.esliteral;
+        var emmet = DOM.emmetLiteral;
 
         expect(emmet`a+b`).toBe("<a></a><b></b>");
         expect(emmet`div>{${bar}}`).toBe("<div>foo</div>");
+        expect(emmet`div>{${bar}}+(a>{${'bar'}})`).toBe("<div>foo<a>bar</a></div>");
     });
 
     it("should throw error on invalid args", function() {
