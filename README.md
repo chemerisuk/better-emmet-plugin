@@ -1,7 +1,7 @@
 # better-emmet-plugin<br>[![NPM version][npm-version]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][bower-image]][bower-url]
 > Emmet abbreviation parser for [better-dom](https://github.com/chemerisuk/better-dom)
 
-Html strings are annoyingly verbose. Let's fix that with [Emmet](http://emmet.io/). Compare the HTML string:
+On front-end it's typically to have some HTML pieces in Java Script. This plugin helps to simplify such embed strings using a nice [Emmet](http://emmet.io/)-like syntax which we are all familiar with. Compare the line below:
 
 ```js
 DOM.create("<ul><li class='list-item'></li><li class='list-item'></li><li class='list-item'></li></ul>");
@@ -13,6 +13,24 @@ to the equivalent micro template
 DOM.create(DOM.emmet("ul>li.list-item*3"));
 ```
 Take a look at the [Emmet cheat sheet](http://docs.emmet.io/cheat-sheet/) for more examples, but be aware about the [differences](#differences-from-emmetio-parser).
+
+## Where to use
+`DOM.emmet` converts an Emmet abbreviation to HTML string:
+
+```js
+DOM.emmet("a+b"); // => "<a></a><b></b>"
+DOM.emmet("select>option[value=$]*2"); 
+// => "<select><option value="1"></option><option value="2"></option></select>"
+```
+
+If you use a ES6 trinspiler for your source code, the plugin exposes `DOM.emmetLiteral`. This function provides even more elegant syntax for microtemplating using [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals):
+
+```js
+var emmet = DOM.emmetLiteral;
+...
+DOM.create(emmet`ul>li.list-item*3`);
+DOM.create(emmet`a>{Hello ${username}!}`);
+```
 
 ## Differences from emmet.io parser
 1. Element aliases are not supported
@@ -27,8 +45,6 @@ Take a look at the [Emmet cheat sheet](http://docs.emmet.io/cheat-sheet/) for mo
 ## Do not be crazy with microtemplates!
 Several recommendations from the [emmet docs](http://docs.emmet.io/):
 
-> Abbreviations are not a template language, they don’t have to be “readable”, they have to be “quickly expandable and removable”.
-> 
 > You don’t really need to write complex abbreviations. Stop thinking that “typing” is the slowest process in web-development. You’ll quickly find out that constructing a single complex abbreviation is much slower and error-prone than constructing and typing a few short ones.
 
 ## Browser support
