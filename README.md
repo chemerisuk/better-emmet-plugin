@@ -1,3 +1,5 @@
+**DEPRECATED AND NO LONGER SUPPORTED: use standards-frieldly [ES6 template literals](http://wesbos.com/template-strings-html/) instead**
+
 # better-emmet-plugin<br>[![NPM version][npm-version]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Bower version][bower-image]][bower-url]
 > Emmet abbreviation parser for [better-dom](https://github.com/chemerisuk/better-dom)
 
